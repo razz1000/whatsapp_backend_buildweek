@@ -50,15 +50,19 @@ userRouter.post("/login", async (req, res, next) => {
 });
 
 // GET INFORMATION FOR A SPECIFIC USER
-userRouter.get("/dashboard", JWTAuthMiddleware, async (req, res, next) => {
-  try {
-    const user = await userModel.findById(req.user._id);
+userRouter.get(
+  "/userinformation",
+  JWTAuthMiddleware,
+  async (req, res, next) => {
+    try {
+      const user = await userModel.findById(req.user._id);
 
-    res.send(user);
-  } catch (error) {
-    next(error);
+      res.send(user);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 // (A PUT) MODIFY INFORMATION FOR A SPECIFIC USER
 userRouter.put("/dashboard", JWTAuthMiddleware, async (req, res, next) => {
