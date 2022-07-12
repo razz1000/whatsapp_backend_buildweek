@@ -17,7 +17,8 @@ router.get('/', JWTAuthMiddleware, async (req, res, next) => {
 router.post('/', JWTAuthMiddleware, async (req, res, next) => {
   try {
     const newMessage = new MessagesModel({ sender: req.user._id, ...req.body })
-    res.send(newMessage)
+    const { _id } = await newMessage.save()
+    res.send({ _id })
   } catch (error) {
     console.log(error)
     next(error)
