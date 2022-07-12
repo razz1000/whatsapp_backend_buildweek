@@ -5,6 +5,7 @@ let onlineUsers = [];
 const connectionHandler = (socket) => {
   // We have established a connection with a client
   socket.emit("welcome", { message: `Hello ${socket.id}!` });
+  console.log("Connection established");
 
   // FE is emitting setUsername event --> BE should listen for that
 
