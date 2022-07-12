@@ -29,16 +29,15 @@ const connectionHandler = (socket) => {
     socket.broadcast.emit("newConnection", onlineUsers); // We want to emit this event to every connected socket but not the current one
   });
 
-  socket.on("message", async ({ newMessage, sender }) => {
-    // we should broadcast that message to everybody but not to the sender of the message (otherwise he would see a duplicated message on the chat)
-    // socket.broadcast.emit("message", message)
-    console.log("Message", newMessage);
+  socket.on("message", async ({ sender, content }) => {
+    console.log("Sender:", sender);
+    console.log("content:", content);
 
     // we would like to save the message in db
-    await saveMessage(newMessage, sender);
+    await saveMessage(sender, content);
 
     // we would like to emit to everybody who is in the room
-    socket.to(sender).emit("message", newMessage);
+    socket.to(sender).emit("message", content);
   });
 
   socket.on("disconnect", () => {
