@@ -1,5 +1,5 @@
-import MessagesModel from "../socket/models/messages.js";
 import RoomsModel from "../socket/models/rooms.js";
+import MessagesModel from "../apis/messages/model.js";
 
 export const saveMessage = async (message, roomName) => {
   try {
@@ -8,8 +8,9 @@ export const saveMessage = async (message, roomName) => {
     const newMessage = new MessagesModel({
       text: message.text,
       sender: message.sender,
-      room: room._id,
+      /* room: room._id, */
     });
+    console.log("NewMessage:", newMessage);
     const savedMessage = await newMessage.save();
     return savedMessage;
   } catch (error) {

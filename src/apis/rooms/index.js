@@ -1,7 +1,7 @@
 import express from "express";
 import createError from "http-errors";
 import RoomsModel from "../../socket/models/rooms.js";
-import MessagesModel from "../../socket/models/messages.js";
+import MessagesModel from "../messages/model.js";
 /* import UsersModel from "../../models/users.js"; */
 
 const roomsRouter = express.Router();

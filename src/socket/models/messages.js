@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+/* import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
@@ -13,3 +13,4 @@ const MessagesSchema = new Schema(
 )
 
 export default model('Message', MessagesSchema)
+ */
