@@ -6,15 +6,16 @@ const connectionHandler = (socket) => {
   // We have established a connection with a client
   socket.emit("welcome", { message: `Hello ${socket.id}!` });
   console.log("Connection established");
+  console.log("welcome", ` ${socket.id}!`);
 
   // FE is emitting setUsername event --> BE should listen for that
 
+  // When a new client connects to the chat and sets a username, BE should keep track of that socketId & username
   socket.on("setUsername", (payload) => {
-    // When a new client connects to the chat and sets a username, BE should keep track of that socketId & username
     onlineUsers.push({
       username: payload.username,
-      socketId: socket.id,
-      room: payload.room,
+      /* socketId: room, */
+      /* room: payload.room, */
     });
     console.log("ONLINE USERS: ", onlineUsers);
 
@@ -29,12 +30,13 @@ const connectionHandler = (socket) => {
     socket.broadcast.emit("newConnection", onlineUsers); // We want to emit this event to every connected socket but not the current one
   });
 
-  socket.on("message", async ({ sender, content }) => {
+  socket.on("message", async ({ sender, content, room }) => {
     console.log("Sender:", sender);
     console.log("content:", content);
+    console.log("Room:", room);
 
     // we would like to save the message in db
-    await saveMessage(sender, content);
+    await saveMessage(sender, content, room);
 
     // we would like to emit to everybody who is in the room
     socket.to(sender).emit("message", content);
@@ -44,6 +46,7 @@ const connectionHandler = (socket) => {
     // event automatically emitted by the FE when user closes the browser/tab
     onlineUsers = onlineUsers.filter((user) => user.socketId !== socket.id);
     socket.broadcast.emit("newConnection", onlineUsers);
+    console.log("User with Socket ID", ` ${socket.id}!`, "Disconnected");
   });
 };
 

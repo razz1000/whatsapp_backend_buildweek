@@ -1,7 +1,7 @@
 import RoomsModel from "../socket/models/rooms.js";
 import MessagesModel from "../apis/messages/model.js";
 
-export const saveMessage = async (sender, content) => {
+export const saveMessage = async (sender, content, room) => {
   try {
     /*     const room = await RoomsModel.findOne({ name: roomName }); */
     // save message in messages collection
@@ -10,7 +10,7 @@ export const saveMessage = async (sender, content) => {
     const newMessage = new MessagesModel({
       content: content,
       sender: sender,
-      /* room: room._id, */
+      room: room,
     });
     console.log("NewMessage:", newMessage);
     const savedMessage = await newMessage.save();
