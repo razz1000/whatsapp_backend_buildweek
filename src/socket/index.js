@@ -30,7 +30,7 @@ const connectionHandler = (socket) => {
     socket.broadcast.emit("newConnection", onlineUsers); // We want to emit this event to every connected socket but not the current one
   });
 
-  socket.on("message", async ({ sender, content, room }) => {
+  socket.on("message", async (sender, content, room) => {
     console.log("Sender:", sender);
     console.log("content:", content);
     console.log("Room:", room);
@@ -39,7 +39,7 @@ const connectionHandler = (socket) => {
     await saveMessage(sender, content, room);
 
     // we would like to emit to everybody who is in the room
-    socket.to(sender).emit("message", content);
+    socket.to(room).emit("message", content);
   });
 
   socket.on("disconnect", () => {
