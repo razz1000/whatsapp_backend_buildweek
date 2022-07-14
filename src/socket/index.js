@@ -18,7 +18,6 @@ const connectionHandler = (socket) => {
       /* socketId: room, */
       /* room: payload.room, */
     })
-
     const updatedUserSocket = await userModel.findByIdAndUpdate(
       payload.username,
       {
@@ -26,7 +25,6 @@ const connectionHandler = (socket) => {
       },
       { new: true, runValidators: true }
     )
-    console.log('UPDATED USER SOCKET', updatedUserSocket)
     console.log('ONLINE USERS: ', onlineUsers)
     /*     const socketUser = await userModel.findById(payload.username);
     console.log("Socket USer;", socketUser); */
