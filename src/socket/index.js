@@ -1,4 +1,5 @@
 import { saveMessage } from "../utils/messages.js";
+import userModel from "../apis/users/model.js";
 
 let onlineUsers = [];
 
@@ -11,13 +12,15 @@ const connectionHandler = (socket) => {
   // FE is emitting setUsername event --> BE should listen for that
 
   // When a new client connects to the chat and sets a username, BE should keep track of that socketId & username
-  socket.on("setUsername", (payload) => {
+  socket.on("setUsername", async (payload) => {
     onlineUsers.push({
       username: payload.username,
       /* socketId: room, */
       /* room: payload.room, */
     });
     console.log("ONLINE USERS: ", onlineUsers);
+    /*     const socketUser = await userModel.findById(payload.username);
+    console.log("Socket USer;", socketUser); */
 
     // To join a specific room we can use socket.join
     socket.join(payload.room);
