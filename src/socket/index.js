@@ -1,5 +1,6 @@
 import { saveMessage } from "../utils/messages.js";
 import userModel from "../apis/users/model.js";
+import RoomModel from "../apis/rooms/model.js";
 
 let onlineUsers = [];
 
@@ -48,8 +49,15 @@ const connectionHandler = (socket) => {
     console.log("sender", sender);
     console.log("content", content);
     console.log("room", room);
+
+    if (room) {
+      await saveMessage(sender, content, room);
+    } else {
+      const newRoom = new RoomModel({ room, member: [sender] });
+      await newRoom.save();
+    }
+
     // we would like to save the message in db
-    await saveMessage(sender, content, room);
 
     // we would like to emit to everybody who is in the room
     socket.to(room).emit("receivedMessage", {
