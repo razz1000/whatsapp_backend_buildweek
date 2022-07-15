@@ -12,6 +12,7 @@ roomsRouter.post('/', async (req, res, next) => {
     const { _id } = await newRoom.save()
     res.status(201).send({ _id })
   } catch (error) {
+    console.log(error)
     next(error)
   }
 })
@@ -26,6 +27,20 @@ roomsRouter.get('/:roomName/messages', async (req, res, next) => {
       next(createError(404, `Room with id ${req.params.roomName} not found!`))
     }
   } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+roomsRouter.get('/:roomId', async (req, res, next) => {
+  try {
+    const foundRoom = await RoomsModel.findById(req.params.roomId)
+    if (!foundRoom) {
+      createError(404, 'room not found!')
+    } else {
+      res.send(foundRoom)
+    }
+  } catch (error) {
+    console.log(error)
     next(error)
   }
 })
